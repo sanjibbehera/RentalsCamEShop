@@ -1,4 +1,4 @@
-const CameraManufacturerObj = require('../../models/Cameras/CamManufacturer.model.js');
+const CameraManufacturerObj = require('../../models/Cameras/CameraManufacturer.model.js');
 
 // Create and Save a new Cam Manufacturer..
 exports.create = (req, res) => {

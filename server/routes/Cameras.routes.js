@@ -1,9 +1,9 @@
 module.exports = (app) => {
-    const cameraManufacturer = require('../controllers/Cameras/CamManufacturer.controller.js');
+    const CameraManufacturer = require('../controllers/Cameras/CameraManufacturer.controller.js');
 
     // Retrieve all Cam Manufacturer.
-    app.get('/getAllCameraManufacturers', cameraManufacturer.findAll);
+    app.get('/getAllCameraManufacturers', CameraManufacturer.findAll);
 
     // Create a new Cam Manufacturer.
-    app.post('/createCameraManufacturer', cameraManufacturer.create);
+    app.post('/createCameraManufacturer', CameraManufacturer.create);
 }
