@@ -1,5 +1,22 @@
 // Call in installed dependencies
-import express from 'express';
+const express = require('express');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const dbConfig = require('./config/database.config.js');
+require('dotenv').config();
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
+mongoose.connect(dbConfig.url, {
+    useNewUrlParser: true, useUnifiedTopology: true, user: process.env.user, pass: process.env.pass, keepAlive: true,
+}).then(() => {
+    console.log("Successfully connected to the database");    
+}).catch(err => {
+    console.log('Could not connect to the database. Exiting now...', err);
+    process.exit();
+});
+
+
 // set up express app
 const app = express();
 // set up home route
