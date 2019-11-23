@@ -37,3 +37,80 @@ exports.findAll = (req, res) => {
         });
     });
 };
+
+// Find a single Camera Manufacturer with a manufacturerId
+exports.findOne = (req, res) => {
+    CameraManufacturerObj.findById(req.params.CamManufacturerId)
+    .then(cameramanufacturer => {
+        if(!cameramanufacturer) {
+            return res.status(404).send({
+                message: "Cam Manufacturer not found with id " + req.params.CamManufacturerId
+            });            
+        }
+        res.send(cameramanufacturer);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Cam Manufacturer not found with id " + req.params.CamManufacturerId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error retrieving Cam Manufacturer with id " + req.params.CamManufacturerId
+        });
+    });
+};
+
+// Delete a Camera Manufacturer with the specified manufacturerId in the request
+exports.delete = (req, res) => {
+    CameraManufacturerObj.findByIdAndRemove(req.params.CamManufacturerId)
+    .then(cameramanufacturer => {
+        if(!cameramanufacturer) {
+            return res.status(404).send({
+                message: "Camera Manufacturer not found with id " + req.params.CamManufacturerId
+            });
+        }
+        res.send({message: "Camera Manufacturer deleted successfully!"});
+    }).catch(err => {
+        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+            return res.status(404).send({
+                message: "Camera Manufacturer not found with id " + req.params.CamManufacturerId
+            });                
+        }
+        return res.status(500).send({
+            message: "Could not delete Camera Manufacturer with id " + req.params.CamManufacturerId
+        });
+    });
+};
+
+// Update a Camera Manufacturer identified by the manufacturerId in the request
+exports.update = (req, res) => {
+    // Validate Request
+    if(!req.body.Description) {
+        return res.status(400).send({
+            message: "Camera Manufacturer Description can not be empty"
+        });
+    }
+
+    // Find Camera Manufacturer and update it with the request body
+    CameraManufacturerObj.findByIdAndUpdate(req.params.CamManufacturerId, {
+        CamManufacturerName: req.body.CamManufacturerName,
+        Description: req.body.Description
+    }, {new: true})
+    .then(cameramanufacturer => {
+        if(!cameramanufacturer) {
+            return res.status(404).send({
+                message: "Camera Manufacturer not found with id " + req.params.CamManufacturerId
+            });
+        }
+        res.send(cameramanufacturer);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Camera Manufacturer not found with id " + req.params.CamManufacturerId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error updating Camera Manufacturer with id " + req.params.CamManufacturerId
+        });
+    });
+};
