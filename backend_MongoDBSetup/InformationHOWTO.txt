@@ -1,0 +1,97 @@
+-- Prerequisites for the below is MongoDB should be installed in Windows.
+-- It autonmatically creates a Windows Service, I have additonally created 1 more service to handle this new DB as a separate MongoDB Instance.
+
+-- Install MongoDB as a Windows Service..
+mongod --config <MONGODB CONFIG FILE PATH>\mongo.cfg --dbpath=<MONGODB DATA PATH>\data --logpath=<MONGODB LOGS PATH>\log.txt --install --serviceName MongoCamRentalsDB --serviceDisplayName MongoCamRentalsDB
+--Once the service is created, you can start the Service from the Services.
+
+--Connect the DB via the below command for the first time.
+mongo mongodb://localhost:27018/MongoCamRentalsDB
+
+--MongoDB User Creation..
+db.createUser({	user: "sanjib", pwd: "Sanjib1982$", roles:[{role: "userAdminAnyDatabase" , db:"admin"}]});
+db.createUser({ user: "mongoadmin" , pwd: "mongoadmin", roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase", "readWriteAnyDatabase"]})
+db.createUser({	user: "CamRentalAdmin",	pwd: "CamRentalAdmin2019$", roles:[{role: "userAdmin" , db:"MongoCamRentalsDB"}]});
+db.createUser({	user: "CamRentalUser1",	pwd: "CamRentalUser12019$", roles:[{role: "read" , db:"MongoCamRentalsDB"}]});
+db.createUser({	user: "CamRentalAccountant",	pwd: "CamRentalAccountant2019$", roles:[{role: "readWrite" , db:"MongoCamRentalsDB"}]});
+
+-- Grant Additional Roles.
+use admin
+db.grantRolesToUser( "<USERNAME>", [ { role: "readWriteAnyDatabase", db:"admin" } ],);
+
+-- View User Roles.
+db.getUser("<USERNAME>");
+
+-- start MONGO DB by enabling access control..
+add <authorization: enabled> in config file under security..
+-- shutdown the DB from mongo shell:->> db.adminCommand( { shutdown: 1 } ) & start the Windows Service <MongoCamRentalsDB> from Services.
+-- connect to MongoDB
+mongo --port 27018  --authenticationDatabase "admin" -u "<ADMIN USER>" -p
+
+--Switch to your APP DB, since you authenticate to Admin DB while login.
+use <APP DB>
+
+--Create DB Collections.
+use <APP DB>
+db.createCollection("CamManufacturer");
+db.createCollection("CamRentalInfo");
+db.createCollection("CamInfo");
+db.createCollection("CamDetails");
+
+db.createCollection("CamLensManufacturer");
+db.createCollection("CamLensRentalInfo");
+db.createCollection("CamLensInfo");
+db.createCollection("CamLensDetails");
+
+db.createCollection("CamAccessoryManufacturer");
+db.createCollection("CamAccessoryRentalInfo");
+db.createCollection("CamAccessoryInfo");
+db.createCollection("CamAccessoryDetails");
+
+db.CamManufacturer.insertMany( [
+      { CamManufacturerName: "Canon" },
+      { CamManufacturerName: "Nikon" },
+      { CamManufacturerName: "Sony" },
+      { CamManufacturerName: "Leica" },
+      { CamManufacturerName: "Pentax" },
+      { CamManufacturerName: "FujiFilm" },
+      { CamManufacturerName: "Hasselblad" },
+      { CamManufacturerName: "Panasonic" },
+   ] );
+
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 10, Tags: ["DSL Camera"], CamMaker: "Canon", CamName: "Canon EOS 5D Mark IV Digital SLR", CamType: "DSLR", RentPrice: "2000 INR",
+     InventoryRegistryNo: "CANONSLR5DMARKIV20191123"}
+);
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 15, Tags: ["DSL Camera"], CamMaker: "Canon", CamName: "Canon EOS 5D Mark III Digital SLR", CamType: "DSLR", RentPrice: "1800 INR",
+     InventoryRegistryNo: "CANONSLR5DMARKIII20191123"}
+);
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 20, Tags: ["DSL Camera"], CamMaker: "Canon", CamName: "Canon EOS 6D Digital SLR Camera", CamType: "DSLR", RentPrice: "1500 INR",
+     InventoryRegistryNo: "CANONSLR6D20191123"}
+);
+
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 10, Tags: ["DSL Camera"], CamMaker: "Nikon", CamName: "Nikon D850 Digital SLR Camera", CamType: "DSLR", RentPrice: "2500 INR",
+     InventoryRegistryNo: "NIKONSLRD85020191123"}
+);
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 15, Tags: ["DSL Camera"], CamMaker: "Nikon", CamName: "Nikon D750 Digital SLR Camera", CamType: "DSLR", RentPrice: "2200 INR",
+     InventoryRegistryNo: "NIKONSLRD75020191123"}
+);
+db.CamRentalInfo.insertOne(
+   { Item: "Camera", Qty: 20, Tags: ["DSL Camera"], CamMaker: "Nikon", CamName: "Nikon D810 Digital SLR Camera", CamType: "DSLR", RentPrice: "2000 INR",
+     InventoryRegistryNo: "NIKONSLRD81020191123"}
+);
+
+-- Fetch Documents from a MongoDB Collection.
+Syntax: db.<Collection Name>.find(); Eg:- db.CamRentalInfo.find();
+
+-- Add new fields to your existing Collections.
+-- If it is required for single Document.
+db.<Collection Name>.find();  --> Returns the ObjectID for the documents inside the Collection.
+db.<Collection Name>.update({"_id" :ObjectId("<ObjectID returned in the above command>") },{$set : {"new_field":1}});
+
+-- If it required for all the documents inside the Collection.
+db.<Collection Name>.update(  {},  { $set: {"new_field": 1} },  false,  true);
