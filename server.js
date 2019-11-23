@@ -19,12 +19,19 @@ mongoose.connect(dbConfig.url, {
 
 // set up express app
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(logger('dev'));
+
 // set up home route
 app.get('/', (request, respond) => {
   respond.status(200).json({
     message: 'Welcome to Project Support',
   });
 });
+
+// Require Notes routes
+require('./server/routes/Cameras.routes')(app);
 
 // set up port number
 const port = 5035;
