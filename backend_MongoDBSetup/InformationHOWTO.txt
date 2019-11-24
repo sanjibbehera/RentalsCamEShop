@@ -9,11 +9,11 @@ mongod --config <MONGODB CONFIG FILE PATH>\mongo.cfg --dbpath=<MONGODB DATA PATH
 mongo mongodb://localhost:27018/MongoCamRentalsDB
 
 --MongoDB User Creation..
-db.createUser({	user: "sanjib", pwd: "Sanjib1982$", roles:[{role: "userAdminAnyDatabase" , db:"admin"}]});
-db.createUser({ user: "mongoadmin" , pwd: "mongoadmin", roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase", "readWriteAnyDatabase"]})
-db.createUser({	user: "CamRentalAdmin",	pwd: "CamRentalAdmin2019$", roles:[{role: "userAdmin" , db:"MongoCamRentalsDB"}]});
-db.createUser({	user: "CamRentalUser1",	pwd: "CamRentalUser12019$", roles:[{role: "read" , db:"MongoCamRentalsDB"}]});
-db.createUser({	user: "CamRentalAccountant",	pwd: "CamRentalAccountant2019$", roles:[{role: "readWrite" , db:"MongoCamRentalsDB"}]});
+db.createUser({	user: "sanjib", pwd: "<PWD>", roles:[{role: "userAdminAnyDatabase" , db:"admin"}]});
+db.createUser({ user: "mongoadmin" , pwd: "<PWD>", roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase", "readWriteAnyDatabase"]})
+db.createUser({	user: "CamRentalAdmin",	pwd: "<PWD>", roles:[{role: "userAdmin" , db:"MongoCamRentalsDB"}]});
+db.createUser({	user: "CamRentalUser1",	pwd: "<PWD>", roles:[{role: "read" , db:"MongoCamRentalsDB"}]});
+db.createUser({	user: "CamRentalAccountant",	pwd: "<PWD>", roles:[{role: "readWrite" , db:"MongoCamRentalsDB"}]});
 
 -- Grant Additional Roles.
 use admin
