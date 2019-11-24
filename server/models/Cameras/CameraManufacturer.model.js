@@ -8,4 +8,4 @@ const CamManufacturerSchema = mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('CamManufacturer', CamManufacturerSchema);
+module.exports = mongoose.model('CameraManufacturer', CamManufacturerSchema);

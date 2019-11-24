@@ -15,7 +15,7 @@ exports.create = (req, res) => {
         Description: req.body.Description
     });
 
-    // Save CamManufacturer in the database
+    // Save Camera Manufacturer in the database
     CameraManufacturer.save()
     .then(data => {
         res.send(data);
@@ -26,7 +26,7 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve and return all notes from the database.
+// Retrieve and return all Camera Manufacturer from the database.
 exports.findAll = (req, res) => {
     CameraManufacturerObj.find()
     .then(cameramanufacturer => {
