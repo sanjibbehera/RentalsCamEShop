@@ -1,0 +1,25 @@
+{
+    "development": {
+        "config_id": "development",
+        "app_name": "my node app",
+        "app_desc": "my node app desc",
+        "node_port": 3005,
+        "json_indentation": 4,
+        "databaseUrl": "mongodb://localhost:27018/mynodeapp-db-dev?authSource=admin"
+    },
+    "testing": {
+        "config_id": "testing",
+        "node_port": 3006,
+        "databaseUrl": "mongodb://localhost:27018/mynodeapp-db-test?authSource=admin"
+    },
+    "staging": {
+        "config_id": "staging",
+        "node_port": 3007,
+        "databaseUrl": "mongodb://localhost:27018/mynodeapp-db-stag?authSource=admin"
+    },
+    "production": {
+        "config_id": "production",
+        "node_port": 3008,
+        "databaseUrl": "mongodb://localhost:27018/mynodeapp-db-prod?authSource=admin"
+    }
+}

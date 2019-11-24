@@ -16,7 +16,10 @@ mongoose.connect(dbConfig.url, {
     process.exit();
 });
 
-
+// environment variables
+process.env.NODE_ENV = 'development';
+// config variables
+const config = require('./config/config.js');
 // set up express app
 const app = express();
 app.use(bodyParser.json());
@@ -25,9 +28,7 @@ app.use(logger('dev'));
 
 // set up home route
 app.get('/', (request, respond) => {
-  respond.status(200).json({
-    message: 'Welcome to Project Support',
-  });
+  respond.json(global.gConfig);
 });
 
 require('./server/routes/CameraRoutes.routes')(app);  // Require Cameras routes
@@ -35,6 +36,6 @@ require('./server/routes/UserRoutes.routes')(app);  // Require User routes
 
 // set up port number
 const port = 5035;
-app.listen(port, (request, respond) => {
-  console.log(`Our server is live on ${port}. Yay!`);
+app.listen(global.gConfig.node_port, () => {
+  console.log(`${global.gConfig.app_name} listening on port ${global.gConfig.node_port}`);
 });
