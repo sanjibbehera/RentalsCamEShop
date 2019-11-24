@@ -98,7 +98,11 @@ exports.update = (req, res) => {
     // Find Camera Manufacturer and update it with the request body
     CameraRentalsInfoObj.findByIdAndUpdate(req.params.CameraId, {
         ItemType: req.body.ItemType,
-        Quantity: req.body.Quantity
+        Quantity: req.body.Quantity,
+        CameraMaker: req.body.CameraMaker,
+        CameraName: req.body.CameraName,
+        CameraRentalPrice: req.body.CameraRentalPrice,
+        CameraInventoryRegistryNo: req.body.CameraInventoryRegistryNo
     }, {new: true})
     .then(camerarentalsinfo => {
         if(!camerarentalsinfo) {

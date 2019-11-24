@@ -31,6 +31,7 @@ app.get('/', (request, respond) => {
 });
 
 require('./server/routes/CameraRoutes.routes')(app);  // Require Cameras routes
+require('./server/routes/UserRoutes.routes')(app);  // Require User routes
 
 // set up port number
 const port = 5035;
