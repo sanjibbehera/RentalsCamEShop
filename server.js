@@ -30,7 +30,7 @@ app.get('/', (request, respond) => {
   });
 });
 
-require('./server/routes/Cameras.routes')(app);  // Require Cameras routes
+require('./server/routes/CameraRoutes.routes')(app);  // Require Cameras routes
 
 // set up port number
 const port = 5035;

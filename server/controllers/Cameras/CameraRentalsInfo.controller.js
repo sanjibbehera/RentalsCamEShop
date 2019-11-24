@@ -42,7 +42,7 @@ exports.insert = (req, res) => {
     });
 };
 
-// Find a single Camera Manufacturer with a manufacturerId
+// Find a single Camera with a cameraId
 exports.findOne = (req, res) => {
     CameraRentalsInfoObj.findById(req.params.CameraId)
     .then(camerarentalsinfo => {
@@ -64,7 +64,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Delete a Camera Manufacturer with the specified manufacturerId in the request
+// Delete a Camera with the specified cameraId in the request
 exports.delete = (req, res) => {
     CameraRentalsInfoObj.findByIdAndRemove(req.params.CameraId)
     .then(camerarentalsinfo => {
@@ -86,3 +86,35 @@ exports.delete = (req, res) => {
     });
 };
 
+// Update a Camera Manufacturer identified by the manufacturerId in the request
+exports.update = (req, res) => {
+    // Validate Request
+    if(!req.body.Description) {
+        return res.status(400).send({
+            message: "Camera Manufacturer Description can not be empty"
+        });
+    }
+
+    // Find Camera Manufacturer and update it with the request body
+    CameraRentalsInfoObj.findByIdAndUpdate(req.params.CameraId, {
+        ItemType: req.body.ItemType,
+        Quantity: req.body.Quantity
+    }, {new: true})
+    .then(camerarentalsinfo => {
+        if(!camerarentalsinfo) {
+            return res.status(404).send({
+                message: "Camera not found with id " + req.params.CameraId
+            });
+        }
+        res.send(camerarentalsinfo);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Camera not found with id " + req.params.CameraId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error updating Camera with id " + req.params.CameraId
+        });
+    });
+};
